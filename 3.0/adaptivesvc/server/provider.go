@@ -25,9 +25,9 @@ import (
 
 var ErrNShouldGreaterThanZero = fmt.Errorf("n should greater than zero")
 
-type Provider struct{}
+type FibProvider struct{}
 
-func (*Provider) Fibonacci(n, workerNum int64) (int64, error) {
+func (*FibProvider) Fibonacci(n, workerNum int64) (int64, error) {
 	var (
 		result int64
 		err    error
@@ -71,7 +71,7 @@ func fibonacci(n int64) (int64, error) {
 	return f1 + f2, nil
 }
 
-func (*Provider) Sleep(duration int64) (int64, error) {
+func (*FibProvider) Sleep(duration int64) (int64, error) {
 	time.Sleep(time.Duration(duration) * time.Millisecond)
 	return 0, nil
 }

@@ -4,6 +4,7 @@ dubbo:
   protocols:
     dubbo:
       name: dubbo
+      port: 20000
       params:
         tcp-read-timeout: 120s
         tcp-write-timeout: 120s
@@ -12,15 +13,15 @@ dubbo:
     zk:
       protocol: zookeeper
 #      address: zookeeper-service.dubbogo-adaptivesvc.svc.cluster.local:2181
-      address: 127.0.0.1:2181
+      address: node2:2181
   consumer:
     registry-ids:
       - zk
-    adaptive-service: true
+#    adaptive-service: true
     references:
-      Provider:
+      FibProvider:
         protocol: dubbo
-        interface: org.apache.dubbo.Provider
-  logger:
-    zap-config:
-      level: debug
+        interface: org.apache.dubbo.FibProvider
+#  logger:
+#    zap-config:
+#      level: debug

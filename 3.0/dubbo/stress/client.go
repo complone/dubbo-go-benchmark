@@ -18,38 +18,31 @@
 package main
 
 import (
-	"context"
 	"dubbo.apache.org/dubbo-go/v3/config"
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
-	"github.com/dubbogo/tools/pkg/stressTest"
-	"os"
-	"strconv"
 )
-
 
 var (
 	userProvider = &UserProvider{}
 )
 
-
 // need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yml" before run
 func main() {
 	config.SetConsumerService(userProvider)
-	if err := config.Load(config.WithPath("./dubbogo.yml")); err != nil {
+	if err := config.Load(config.WithPath("/Users/windwheel/Documents/gitrepo/dubbo-go-benchmark/3.0/dubbo/stress/dubbogo.yml")); err != nil {
 		panic(err)
 	}
 
-
-	ctx := context.Background()
-	tpsNum, _ := strconv.Atoi(os.Getenv("tps"))
-	parallel, _ := strconv.Atoi(os.Getenv("parallel"))
-	payloadLen, _ := strconv.Atoi(os.Getenv("payload"))
-	req  := "laurence" + string(make([]byte, payloadLen))
-	stressTest.NewStressTestConfigBuilder().SetTPS(tpsNum).SetDuration("1h").SetParallel(parallel).Build().Start(func() {
-		if _, err := userProvider.GetUser(ctx, &Request{
-			Name: req,
-		}); err != nil{
-			panic(err)
-		}
-	})
+	//ctx := context.Background()
+	//tpsNum, _ := strconv.Atoi(os.Getenv("tps"))
+	//parallel, _ := strconv.Atoi(os.Getenv("parallel"))
+	//payloadLen, _ := strconv.Atoi(os.Getenv("payload"))
+	//req  := "laurence" + string(make([]byte, payloadLen))
+	//stressTest.NewStressTestConfigBuilder().SetTPS(tpsNum).SetDuration("1h").SetParallel(parallel).Build().Start(func() {
+	//	if _, err := userProvider.GetUser(ctx, &Request{
+	//		Name: req,
+	//	}); err != nil{
+	//		panic(err)
+	//	}
+	//})
 }

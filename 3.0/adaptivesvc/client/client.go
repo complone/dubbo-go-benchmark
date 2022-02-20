@@ -35,16 +35,17 @@ const (
 )
 
 func main() {
-	provider := &Provider{}
+	provider := &FibProvider{}
 	config.SetConsumerService(provider)
 
-	//if err := config.Load(config.WithPath("./dubbogo.yml")); err != nil {
-	//	panic(err)
-	//}
-	// TODO(justxuewei): remove after test
-	if err := config.Load(); err != nil {
+	path := "/Users/windwheel/Documents/gitrepo/dubbo-go-benchmark/3.0/adaptivesvc/client/dubbogo.yml"
+	if err := config.Load(config.WithPath(path)); err != nil {
 		panic(err)
 	}
+	//// TODO(justxuewei): remove after test
+	//if err := config.Load(); err != nil {
+	//	panic(err)
+	//}
 
 	var (
 		tps, parallel      int
@@ -96,10 +97,10 @@ func main() {
 	fmt.Printf("TPS: %.2f\n", tester.GetTPS())
 	fmt.Printf("RT: %.2fs\n", tester.GetAverageRTSeconds())
 	//
-	//doInvoke(1)
+	doInvoke(1)
 }
 
-func fibonacci(ctx context.Context, provider *Provider) (result int64, err error) {
+func fibonacci(ctx context.Context, provider *FibProvider) (result int64, err error) {
 	var (
 		n, workNum int
 	)
@@ -114,7 +115,7 @@ func fibonacci(ctx context.Context, provider *Provider) (result int64, err error
 	return
 }
 
-func sleep(ctx context.Context, provider *Provider) {
+func sleep(ctx context.Context, provider *FibProvider) {
 	var (
 		duration int
 		err      error

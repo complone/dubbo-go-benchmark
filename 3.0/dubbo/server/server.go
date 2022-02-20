@@ -18,17 +18,46 @@
 package main
 
 import (
+	"dubbo.apache.org/dubbo-go/v3/common/logger"
 	"dubbo.apache.org/dubbo-go/v3/config"
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 // need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yml" before run
 func main() {
+
+	path := "/Users/windwheel/Documents/gitrepo/dubbo-go-benchmark/3.0/dubbo/server/dubbogo.yml"
 	config.SetProviderService(&UserProvider{})
-	if err := config.Load(config.WithPath("./dubbogo.yml")); err != nil {
+	if err := config.Load(config.WithPath(path)); err != nil {
 		panic(err)
 	}
-	select {
+	initSignal()
+}
 
+func initSignal() {
+	signals := make(chan os.Signal, 1)
+	// It is not possible to block SIGKILL or syscall.SIGSTOP
+	signal.Notify(signals, os.Interrupt, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
+	for {
+		sig := <-signals
+		logger.Infof("get signal %s", sig.String())
+		switch sig {
+		case syscall.SIGHUP:
+			// reload()
+		default:
+			time.AfterFunc(time.Duration(11), func() {
+				logger.Warnf("app exit now by force...")
+				os.Exit(1)
+			})
+
+			// The program exits normally or timeout forcibly exits.
+			fmt.Println("provider app exit now...")
+			return
+		}
 	}
 }

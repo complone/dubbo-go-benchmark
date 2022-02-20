@@ -2,25 +2,25 @@
 
 dubbo:
   registries:
-    demoNacos:
-      protocol: nacos
-      address: mse-444fcf60-p.nacos-ans.mse.aliyuncs.com:8848
+    demoZK:
+      protocol: zookeeper
+      address: node1:2181
   protocols:
     dubbo:
       name: dubbo
-      port: 20000
+      port: 20001
   consumer:
     registry-ids:
-      - demoNacos
+      - zk
     references:
       "UserProvider":
         protocol: "dubbo"
         interface: "org.apache.dubbo.UserProvider"
-  provider:
-    services:
-      "UserProviderProxy":
-        protocol-ids: "dubbo"
-        interface: "org.apache.dubbo.UserProviderProxy"
+#  provider:
+#    services:
+#      "UserProviderProxy":
+#        protocol-ids: "dubbo"
+#        interface: "org.apache.dubbo.UserProviderProxy"
   logger:
     zap-config:
       level: error

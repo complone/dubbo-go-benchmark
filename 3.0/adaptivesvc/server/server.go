@@ -23,13 +23,14 @@ import (
 )
 
 func main() {
-	config.SetProviderService(&Provider{})
-	//if err := config.Load(config.WithPath("./dubbogo.yml")); err != nil {
-	//	panic(err)
-	//}
-	// TODO(justxuewei): remove after test
-	if err := config.Load(); err != nil {
+	config.SetProviderService(&FibProvider{})
+	path := "/Users/windwheel/Documents/gitrepo/dubbo-go-benchmark/3.0/adaptivesvc/server/dubbogo.yml"
+	if err := config.Load(config.WithPath(path)); err != nil {
 		panic(err)
 	}
+	//// TODO(justxuewei): remove after test
+	//if err := config.Load(); err != nil {
+	//	panic(err)
+	//}
 	select {}
 }

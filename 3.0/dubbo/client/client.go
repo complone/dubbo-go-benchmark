@@ -23,11 +23,9 @@ import (
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
 )
 
-
 var (
 	userProvider = &UserProvider{}
 )
-
 
 type UserProviderProxy struct {
 	userProvider *UserProvider
@@ -42,19 +40,23 @@ func (u *UserProviderProxy) GetUser(ctx context.Context, userID *Request) (*User
 	//}, nil
 }
 
-
 // need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yml" before run
 func main() {
 	config.SetConsumerService(userProvider)
-	config.SetProviderService(&UserProviderProxy{
-		userProvider: userProvider,
-	})
+	//config.SetProviderService(&UserProviderProxy{
+	//	userProvider: userProvider,
+	//})
 
-	err := config.Load(config.WithPath("./dubbogo.yml"))
+	path := "/Users/windwheel/Documents/gitrepo/dubbo-go-benchmark/3.0/dubbo/client/dubbogo.yml"
+	err := config.Load(config.WithPath(path))
+
 	if err != nil {
 		panic(err)
 	}
-	select {
-
+	reqUser := &Request{
+		Name: "12345",
 	}
+
+	userProvider.GetUser(context.TODO(), reqUser)
+
 }

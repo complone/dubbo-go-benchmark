@@ -2,18 +2,18 @@
 
 dubbo:
   registries:
-    zk:
+    demoZk:
       protocol: zookeeper
-      timeout: 3s
+      timeout: 20s
       address: yuluo-13:2181
   protocols:
     dubbo:
       name: dubbo
-      port: 20000
+      port: 20002
   provider:
     registry-ids:
       - zk
-#    adaptive-service-verbose: true
+    #    adaptive-service-verbose: true
     services:
       FibProvider:
         protocol: dubbo

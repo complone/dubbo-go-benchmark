@@ -4,6 +4,7 @@ import (
 	"context"
 	"dubbo.apache.org/dubbo-go/v3/common/logger"
 	"fmt"
+	tester2 "github.com/dubbogo/tools/pkg/tester"
 	"os"
 	"strconv"
 )
@@ -11,7 +12,6 @@ import (
 import (
 	"dubbo.apache.org/dubbo-go/v3/config"
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
-	testerpkg "github.com/dubbogo/tools/pkg/tester"
 )
 
 const (
@@ -34,18 +34,17 @@ const (
 	SleepDuration = "SLEEP_DURATION"
 )
 
-func main() {
-	provider := &FibProvider{}
-	config.SetConsumerService(provider)
+var (
+	provider = &FibProvider{}
+)
 
+func main() {
+
+	config.SetConsumerService(provider)
 	path := "/Users/windwheel/Documents/gitrepo/dubbo-go-benchmark/3.0/adaptivesvc/client/dubbogo.yml"
 	if err := config.Load(config.WithPath(path)); err != nil {
 		panic(err)
 	}
-	//// TODO(justxuewei): remove after test
-	//if err := config.Load(); err != nil {
-	//	panic(err)
-	//}
 
 	var (
 		tps, parallel      int
@@ -85,7 +84,7 @@ func main() {
 		}
 	}
 
-	tester := testerpkg.NewStressTester()
+	tester := tester2.NewStressTester()
 	tester.
 		SetTPS(tps).
 		SetDuration(duration).
@@ -98,6 +97,11 @@ func main() {
 	fmt.Printf("RT: %.2fs\n", tester.GetAverageRTSeconds())
 	//
 	doInvoke(1)
+
+	//// TODO(justxuewei): remove after test
+	//if err := config.Load(); err != nil {
+	//	panic(err)
+	//}
 }
 
 func fibonacci(ctx context.Context, provider *FibProvider) (result int64, err error) {

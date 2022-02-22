@@ -4,18 +4,18 @@ dubbo:
   registries:
     demoZK:
       protocol: zookeeper
-      address: node1:2181
+      address: node2:2181
   protocols:
     dubbo:
       name: dubbo
       port: 20001
   provider:
-    registry-ids:
-      - demoZK
+#    registry-ids:
+#      - zk
     services:
       UserProvider:
         protocol: dubbo
-        interface: org.apache.dubbo.UserProvider
+        interface: org.apache.dubbo.sample1.UserProvider
 #  logger:
 #    zap-config:
 #      level: error

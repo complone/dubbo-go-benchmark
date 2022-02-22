@@ -75,3 +75,8 @@ func (*FibProvider) Sleep(duration int64) (int64, error) {
 	time.Sleep(time.Duration(duration) * time.Millisecond)
 	return 0, nil
 }
+
+//
+//func (u *FibProvider) JavaClassName() string {
+//	return "org.apache.dubbo.FibProvider"
+//}

@@ -19,33 +19,38 @@ package main
 
 import (
 	"context"
+	"dubbo.apache.org/dubbo-go/v3/common/logger"
 	"dubbo.apache.org/dubbo-go/v3/config"
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
-)
-
-var (
-	userProvider = &UserProvider{}
 )
 
 type UserProviderProxy struct {
 	userProvider *UserProvider
 }
 
-func (u *UserProviderProxy) GetUser(ctx context.Context, userID *Request) (*User, error) {
-	return u.userProvider.GetUser(ctx, userID)
-	//return &User{
-	//	ID: "12345",
-	//	Name: "Hello" + userID,
-	//	Age: 21,
-	//}, nil
-}
+//func (u *UserProvider) GetUser(ctx context.Context, userID *Request) (*User, error) {
+//
+//	json, _ := json.Marshal(&userID)
+//	if  json!= nil{
+//
+//	}
+//	fmt.Println("发起调用请求: %s",json)
+//	return u.GetUser(ctx, userID)
+//	//return &User{
+//	//	ID: "12345",
+//	//	Name: "Hello" + userID,
+//	//	Age: 21,
+//	//}, nil
+//}
+
+var (
+	userProvider = &UserProvider{}
+)
 
 // need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yml" before run
 func main() {
+
 	config.SetConsumerService(userProvider)
-	//config.SetProviderService(&UserProviderProxy{
-	//	userProvider: userProvider,
-	//})
 
 	path := "/Users/windwheel/Documents/gitrepo/dubbo-go-benchmark/3.0/dubbo/client/dubbogo.yml"
 	err := config.Load(config.WithPath(path))
@@ -57,6 +62,15 @@ func main() {
 		Name: "12345",
 	}
 
-	userProvider.GetUser(context.TODO(), reqUser)
+	user, err := userProvider.GetUser(context.TODO(), reqUser)
+
+	if err != nil {
+		panic(err)
+	}
+	logger.Infof("response result: %v", user)
+
+	//config.SetProviderService(&UserProviderProxy{x
+	//	userProvider: userProvider,
+	//})
 
 }

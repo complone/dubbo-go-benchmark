@@ -1,0 +1,25 @@
+dubbo:
+  application: # 应用信息，服务启动后会将相关信息注册到注册中心，可被客户端从 url 中识别
+    name: GreetProvider # application=myApp; name=myApp
+    group: dubbo-test # organization=dubbo
+    version: myversion # app.version=myversion
+  registries:
+    demoZK:
+      protocol: zookeeper
+      timeout: 3s
+      address: node2:2181
+  protocols:
+    dubbo:
+      name: dubbo
+      port: 20005
+  provider:
+    services:
+      UserProvider:
+#        group: dubbo-test
+#        version: 1.0.0
+#        cluster: test_dubbo
+#        serialization: hessian2
+        interface: com.dubbogo.pixiu.UserService1
+  logger:
+    zap-config:
+      level: debug

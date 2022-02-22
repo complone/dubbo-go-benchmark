@@ -1,0 +1,17 @@
+dubbo:
+  registries:
+    demoZK:
+      protocol: zookeeper
+      address: node2:2181
+  protocols:
+    dubbo:
+      name: dubbo
+      port: 20005
+  consumer:
+    references:
+      UserProvider:
+        protocol: dubbo
+        interface: com.dubbogo.pixiu.UserService1
+  logger:
+    zap-config:
+      level: debug

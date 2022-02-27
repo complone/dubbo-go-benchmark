@@ -19,7 +19,6 @@ package main
 
 import (
 	"context"
-	hessian "github.com/apache/dubbo-go-hessian2"
 )
 
 type User struct {
@@ -29,18 +28,12 @@ type User struct {
 	Age  int32
 }
 
-
 func (u *User) JavaClassName() string {
 	return "org.apache.dubbo.User"
 }
 
 type UserProvider struct {
 	GetUser func(ctx context.Context, req *Request) (*User, error)
-}
-
-func init(){
-	hessian.RegisterPOJO(&User{})
-	hessian.RegisterPOJO(&Request{})
 }
 
 type Request struct {
